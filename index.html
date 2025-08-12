@@ -38,13 +38,24 @@
   }
   .btn:hover{ background:var(--light-hover); border-color:var(--pink-dark); }
   .btn:active{ transform:translateY(1px); }
-  /* Primary promo button */
+
+  /* Primary promo button (모바일 줄바꿈 방지 + 반응형 폰트) */
   .btn-primary{
     background:var(--pink);
     border-color:var(--pink);
     color:#fff;
+    white-space:nowrap;                  /* 줄바꿈 방지 */
+    font-size:clamp(12px, 3.2vw, 16px);  /* 화면에 맞춰 자동 축소 */
+    padding:12px 18px;
+    overflow:hidden;                     /* 혹시 모를 오버플로우 숨김 */
+    width:90%;                           /* 프로모션 버튼은 살짝 더 넓게 */
+    max-width:480px;
   }
   .btn-primary:hover{ background:var(--pink-dark); border-color:var(--pink-dark); }
+  @media (max-width:360px){
+    .btn-primary{ font-size:12px; }      /* 아주 작은 화면 보정 */
+  }
+
   /* Inline row for two buttons (same total width as below button) */
   .share-row{ display:flex; gap:12px; justify-content:center; margin-top:12px; max-width:400px; width:80%; margin-left:auto; margin-right:auto; }
   .share-row .btn{ flex:1; max-width:none; }
@@ -57,15 +68,15 @@
   .result-title {
     font-size:22px;
     margin:12px 0 8px;
-    font-weight:800;           /* 굵게 */
+    font-weight:800;
     color:#fff0f5;             /* 타이틀 색상 */
-    text-align:center;         /* 중앙 정렬 */
+    text-align:center;
   }
   .result-desc {
     line-height:1.8;
     color:#333;
     white-space:pre-line;
-    text-align:center;         /* 본문 중앙 정렬 */
+    text-align:center;
     margin:0 auto;
     max-width:520px;
   }
@@ -146,7 +157,7 @@ const quiz = [
     ]},
 ];
 
-/* 8개 전체 결과 — 문자열은 모두 "..." + \n 사용 (백틱 없음) */
+/* 8개 전체 결과 — "..." + \n 사용 */
 const resultMap = {
   "J-S-T": {
     title: "절약형 전략가 (J·S·T)",

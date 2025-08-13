@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
-<title>내 소비 습관 MBTI</title>
+<title>내 소비 습관 알아보기</title>
 <style>
   :root{
     --pink:#fc6c9d;
@@ -56,7 +56,7 @@
     .btn-primary{ font-size:12px; }      /* 아주 작은 화면 보정 */
   }
 
-  /* Inline row for two buttons (same total width as below button) */
+  /* Inline row for two buttons */
   .share-row{ display:flex; gap:12px; justify-content:center; margin-top:12px; max-width:400px; width:80%; margin-left:auto; margin-right:auto; }
   .share-row .btn{ flex:1; max-width:none; }
   .hidden { display:none; }
@@ -64,19 +64,19 @@
   .result-badge { display:inline-block; padding:6px 10px; border-radius:999px; background:var(--pink); color:#fff; font-size:12px; margin-bottom:12px; }
   .result-img img { max-width:100%; border-radius:12px; }
 
-  /* 결과 타이틀/본문 스타일(요청사항) */
+  /* 결과 타이틀/본문 스타일 */
   .result-title {
     font-size:22px;
     margin:12px 0 8px;
-    font-weight:800;
+    font-weight:800;           /* 굵게 */
     color:#fff0f5;             /* 타이틀 색상 */
-    text-align:center;
+    text-align:center;         /* 중앙 정렬 */
   }
   .result-desc {
     line-height:1.8;
     color:#333;
     white-space:pre-line;
-    text-align:center;
+    text-align:center;         /* 본문 중앙 정렬 */
     margin:0 auto;
     max-width:520px;
   }
@@ -88,6 +88,8 @@
   <div class="wrap">
     <!-- Intro -->
     <section id="intro" class="card">
+      <!-- 메인 썸네일 -->
+      <img src="제목을-입력해주세요_-001.png" alt="메인 이미지" style="max-width:100%; border-radius:12px; margin-bottom:16px;">
       <h1>내 소비 습관 MBTI</h1>
       <p class="muted">8개의 질문으로 알아보는 나의 돈 쓰는 성격 (약 40초)</p>
       <div class="btns">
@@ -157,47 +159,47 @@ const quiz = [
     ]},
 ];
 
-/* 8개 전체 결과 — "..." + \n 사용 */
+/* 8개 전체 결과 — 긴 문구 반영, 이미지 파일은 001~008.png */
 const resultMap = {
   "J-S-T": {
     title: "절약형 전략가 (J·S·T)",
-    desc: "계획 없이 지갑이 열리는 법이 없다.\n당신은 소비 세계의 ‘스나이퍼’. 가격 비교·쿠폰·포인트까지 꼼꼼히.\n장바구니를 ‘한 달 숙성’ 시킨 뒤 필요한 순간에만 결제!\n\n• 소비 습관: 쿠폰 만료일 기록, 세일 위주, 중고 시세 꿰뚫음\n• 조언: 월 예산의 10%는 ‘기쁨 예산’으로—작은 사치 허용",
-    img: "images/jst.png"
+    img: "001.png",
+    desc: "“한 푼이라도 아끼는 소비판 셜록홈즈!”\n소비판 셜록홈즈! 모든 소비에는 이유가 있고, 모든 결제에는 계획이 있다. 세일 시즌은 미리 달력에 체크, 포인트 적립은 숨 쉬듯이.\n\n🛒 소비 패턴:\n* 가격 비교 3곳 이상 필수\n* 장바구니 ‘숙성’ 후 결제\n* 쿠폰·마일리지 챙기기 달인\n\n조언:\n가끔은 계획에서 벗어나 ‘감정 소비’도 해보세요. 작은 사치가 의외로 큰 행복을 줍니다."
   },
   "P-S-T": {
     title: "실용형 모험가 (P·S·T)",
-    desc: "필요하면? 바로 산다. 대신 잘 써먹는다!\n여행 전날 캐리어, 캠핑 전날 버너도 과감히 결제.\n\n• 소비 습관: 생활·공구류에 강함, ‘언젠가 쓸 것’ 장바구니\n• 조언: 결제 전 “한 달 뒤에도 쓸까?” 10초만 생각",
-    img: "images/pst.png"
+    img: "002.png",
+    desc: "“필요하면 바로 산다, 대신 끝까지 쓴다!”\n필요하다면? 바로 결제! ⚡ 하지만 허투루 쓰진 않는 실속파. 여행 하루 전에도 필요한 장비를 과감히 구매, 그리고 200% 활용.\n\n🛒 소비 패턴:\n* 생활용품·장비에 투자\n* ‘언젠가 쓸 것’ 아이템 장만\n* 빠른 결단과 실행력\n\n조언:\n결제 전 ‘한 달 뒤에도 쓸까?’ 질문 한 번이면 불필요한 지출이 쏙 줄어듭니다."
   },
   "J-S-F": {
     title: "감성형 절약가 (J·S·F)",
-    desc: "내 마음을 움직이는 건 지키고, 나머진 줄인다.\n예쁜 건 사랑하지만, 불필요한 반복 구매는 절대 NO.\n\n• 소비 습관: 문구·향기·컬러에 약함, 계획 내에서 즐김\n• 조언: 비슷한 물건이 늘어나면 ‘쿨링타임 48시간’",
-    img: "images/jsf.png"
+    img: "003.png",
+    desc: "“예쁘면 끌리지만, 쓸모 없으면 패스!”\n예쁜 건 사랑하지만, 불필요한 건 No! 🌸 감성과 실용 사이에서 완벽한 밸런스를 찾는 타입.\n\n🛒 소비 패턴:\n* 문구·향기·컬러에 약함\n* 계획 범위 내에서 즐김\n* ‘필요한 예쁨’만 허용\n\n조언:\n비슷한 물건이 늘어나면 ‘쿨링타임 48시간’을 가져보세요. 감성도 더 소중해집니다."
   },
   "P-S-F": {
     title: "자유로운 실속파 (P·S·F)",
-    desc: "마음이 시키면 지금 바로! 써보고 별로면 중고로 정리.\n즉흥적이지만 실속은 챙기는 타입.\n\n• 소비 습관: SNS 신상·카페 신메뉴에 빠름\n• 조언: 결제 버튼 전에 30분만 숨고르기",
-    img: "images/psf.png"
+    img: "004.png",
+    desc: "“사는 건 자유롭게, 안 쓰면 바로 정리!”\n마음이 가는 대로 소비, 하지만 절대 호갱은 아님! 🕊 즉흥적인 구매 후 필요 없으면 바로 중고 거래로 정리.\n\n🛒 소비 패턴:\n* SNS 핫템·신메뉴에 빠름\n* 실속과 재미를 동시에\n* 후회 없는 소비\n\n조언:\n결제 버튼 전 30분만 숨고르기. 그 사이에 지갑이 말릴 수도 있습니다."
   },
   "J-N-T": {
     title: "미래지향 플래너 (J·N·T)",
-    desc: "소비는 곧 투자. 내 삶을 업그레이드하는가가 기준.\n경험·배움·효율에 돈 쓰고 유행엔 흔들리지 않음.\n\n• 소비 습관: 노트북·책·강의는 과감히, 장기 계획 선호\n• 조언: 가끔은 ROI 계산 없이 ‘순수한 즐거움’도",
-    img: "images/jnt.png"
+    img: "005.png",
+    desc: "“오늘의 소비는 내일의 투자!”\n소비 = 투자. 🎯 유행보다 ‘내 인생 업그레이드’에 집중.\n\n🛒 소비 패턴:\n* 경험·배움에 과감한 투자\n* 장기적 계획에 맞춘 소비\n* 최신 트렌드엔 무관심\n\n조언:\nROI 계산도 좋지만, 가끔은 순수한 즐거움에도 지갑을 열어보세요."
   },
   "P-N-T": {
     title: "직감형 지출가 (P·N·T)",
-    desc: "느낌이 좋으면 산다. 끝! 속도와 직감이 지배.\n가끔 남들보다 너무 앞서가는 바람에 ‘왜 샀지?’ 항목 발생.\n\n• 소비 습관: 출시 첫날 기기 구매, 신제품 러버\n• 조언: 월 1회 ‘뒤돌아보기’로 과열 영역만 냉각",
-    img: "images/pnt.png"
+    img: "006.png",
+    desc: "“끌리면 사고, 가끔 후회도 한다!”\n느낌이 좋으면 바로 지갑 오픈! 🔥 트렌드를 앞서가지만, 가끔 ‘왜 샀지?’ 리스트도 생성.\n\n🛒 소비 패턴:\n* 신제품·신기술에 빠름\n* 한정판 사냥꾼\n* 빠른 결정, 빠른 후회(?)\n\n조언:\n월 1회 ‘뒤돌아보기’로 과열된 영역만 살짝 식혀주세요."
   },
   "J-N-F": {
     title: "로맨틱 플래너 (J·N·F)",
-    desc: "추억은 돈으로 살 수 있다—하지만 계획적으로!\n여행·공연·기념일에 아낌없이, 과정은 꼼꼼히.\n\n• 소비 습관: 이벤트 준비 철저, 기념 예산 따로\n• 조언: ‘기념일’이 너무 많아지면 일정·예산 다이어트",
-    img: "images/jnf.png"
+    img: "007.png",
+    desc: "“추억은 돈으로 사지만, 계획은 철저히!”\n추억은 돈으로 사는 것. 💖 다만 모든 이벤트는 철저히 계획된 상태에서!\n\n🛒 소비 패턴:\n* 여행·공연·기념일 준비 철저\n* 특별한 날 예산 따로 확보\n* ‘감동 설계자’ 스타일\n\n조언:\n기념일이 너무 많아지면 일정과 예산이 폭발할 수 있으니 다이어트가 필요합니다."
   },
   "P-N-F": {
     title: "완전 YOLO형 (P·N·F)",
-    desc: "미래? 일단 오늘이 중요해! 설렘에 지갑이 열리는 타입.\n한정판·핫플·여행에 강한 흡입력.\n\n• 소비 습관: 맛집·비행기 즉시 예약, 굿즈는 무조건\n• 조언: YOLO도 안전망이 있어야 꿀맛—비상금 자동이체",
-    img: "images/pnf.png"
+    img: "008.png",
+    desc: "“통장 잔고보다 오늘의 행복이 먼저!”\n내일은 내일의 내가 알아서! 🌈 오늘이 즐겁다면 바로 결제.\n\n🛒 소비 패턴:\n* 여행·맛집·굿즈 즉시 예약\n* 한정판에 약함\n* 미래보다 현재를 우선\n\n조언:\nYOLO에도 안전망은 필요합니다. 비상금 자동이체를 생활화하세요."
   }
 };
 
@@ -275,7 +277,7 @@ function showResult() {
   el.quiz.classList.add('hidden');
   el.result.classList.remove('hidden');
 
-  /* 이미지는 로드 성공시에만 보여줌 (없거나 깨지면 숨김) */
+  /* 이미지: 로드 성공시에만 보여줌 (없거나 깨지면 숨김) */
   el.rImage.innerHTML = "";
   if (data.img) {
     const img = new Image();

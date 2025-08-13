@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
-<title>내 소비 습관 알아보기</title>
+<title>나의 소비습관 알아보기</title>
 <style>
   :root{
     --pink:#fc6c9d;
@@ -14,13 +14,15 @@
   body { font-family: system-ui, -apple-system, Arial, sans-serif; margin:0; background:#fafafa; color:#111; text-align:center; }
   .wrap { max-width:640px; margin:0 auto; padding:24px; }
   .card { background:#fff; border-radius:16px; padding:24px; box-shadow:0 2px 12px rgba(0,0,0,.06); }
+
   .progress { height:8px; background:#eee; border-radius:999px; overflow:hidden; margin:12px auto 20px; max-width:80%; }
   .bar { height:100%; width:0; background:var(--pink); transition:width .25s; }
+
   h1 { font-size:24px; margin:0 0 6px; }
   h2 { font-size:20px; margin:0 0 16px; }
   .muted { color:#666; font-size:14px; }
-  .btns { display:flex; flex-direction:column; gap:12px; margin-top:16px; align-items:center; }
-  /* Base pill button */
+
+  /* 공통 버튼 — 결과 이미지와 동일 폭 */
   .btn{
     border:1px solid var(--pink);
     border-radius:999px;
@@ -29,8 +31,8 @@
     color:#111;
     cursor:pointer;
     text-align:center;
-    width:80%;
-    max-width:400px;
+    width:90%;
+    max-width:480px;
     display:inline-block;
     text-decoration:none;
     box-sizing:border-box;
@@ -39,47 +41,36 @@
   .btn:hover{ background:var(--light-hover); border-color:var(--pink-dark); }
   .btn:active{ transform:translateY(1px); }
 
-  /* Primary promo button (모바일 줄바꿈 방지 + 반응형 폰트) */
+  /* 주요 프로모션 버튼 */
   .btn-primary{
     background:var(--pink);
     border-color:var(--pink);
     color:#fff;
-    white-space:nowrap;                  /* 줄바꿈 방지 */
-    font-size:clamp(12px, 3.2vw, 16px);  /* 화면에 맞춰 자동 축소 */
+    white-space:nowrap;
+    font-size:clamp(12px, 3.2vw, 16px);
     padding:12px 18px;
-    overflow:hidden;                     /* 혹시 모를 오버플로우 숨김 */
-    width:90%;                           /* 프로모션 버튼은 살짝 더 넓게 */
+    overflow:hidden;
+    width:90%;
     max-width:480px;
   }
   .btn-primary:hover{ background:var(--pink-dark); border-color:var(--pink-dark); }
   @media (max-width:360px){
-    .btn-primary{ font-size:12px; }      /* 아주 작은 화면 보정 */
+    .btn-primary{ font-size:12px; }
   }
 
-  /* Inline row for two buttons */
-  .share-row{ display:flex; gap:12px; justify-content:center; margin-top:12px; max-width:400px; width:80%; margin-left:auto; margin-right:auto; }
+  .btns { display:flex; flex-direction:column; gap:12px; margin-top:16px; align-items:center; }
+
+  /* 다시하기/링크복사 2개를 한 줄에, 전체 폭은 이미지와 동일 */
+  .share-row{
+    display:flex; gap:12px; justify-content:center; margin-top:12px;
+    width:90%; max-width:480px; margin-left:auto; margin-right:auto;
+  }
   .share-row .btn{ flex:1; max-width:none; }
+
   .hidden { display:none; }
 
-  .result-badge { display:inline-block; padding:6px 10px; border-radius:999px; background:var(--pink); color:#fff; font-size:12px; margin-bottom:12px; }
-  .result-img img { max-width:100%; border-radius:12px; }
-
-  /* 결과 타이틀/본문 스타일 */
-  .result-title {
-    font-size:22px;
-    margin:12px 0 8px;
-    font-weight:800;           /* 굵게 */
-    color:#fff0f5;             /* 타이틀 색상 */
-    text-align:center;         /* 중앙 정렬 */
-  }
-  .result-desc {
-    line-height:1.8;
-    color:#333;
-    white-space:pre-line;
-    text-align:center;         /* 본문 중앙 정렬 */
-    margin:0 auto;
-    max-width:520px;
-  }
+  /* 결과 이미지도 버튼과 동일 폭 */
+  .result-img img { width:90%; max-width:480px; border-radius:12px; display:block; margin:0 auto; }
 
   .footer { text-align:center; color:#888; font-size:12px; margin-top:18px; }
 </style>
@@ -90,8 +81,8 @@
     <section id="intro" class="card">
       <!-- 메인 썸네일 -->
       <img src="제목을-입력해주세요_-001.png" alt="메인 이미지" style="max-width:100%; border-radius:12px; margin-bottom:16px;">
-      <h1>내 소비 습관 MBTI</h1>
-      <p class="muted">8개의 질문으로 알아보는 나의 돈 쓰는 성격 (약 40초)</p>
+      <h1>나의 소비습관 알아보기</h1>
+      <p class="muted">8개의 질문으로 알아보는 나의 돈 쓰는 성격(약 40초)</p>
       <div class="btns">
         <button id="startBtn" class="btn">시작하기</button>
       </div>
@@ -107,17 +98,28 @@
 
     <!-- Result -->
     <section id="result" class="card hidden">
-      <span class="result-badge">결과</span>
+      <!-- 작은 배지 대신 버튼과 동일 크기의 라벨 -->
+      <div class="btn" aria-hidden="true" style="cursor:default;">결과 확인</div>
+
       <div class="result-img" id="rImage"></div>
-      <div class="result-title" id="rTitle"></div>
-      <div class="result-desc" id="rDesc"></div>
+
+      <!-- 이미지 다운로드 버튼 -->
+      <div class="btns" style="margin-top:12px;">
+        <a id="downloadBtn" class="btn" href="#" download>이미지 다운로드</a>
+      </div>
+
+      <!-- 다시하기 / 링크 복사 -->
       <div class="share-row">
         <button class="btn" id="retry">다시 하기</button>
         <button class="btn" id="copyLink">링크 복사</button>
       </div>
+
+      <!-- 프로모션 버튼들 -->
       <div class="btns" style="margin-top:10px;">
         <a href="https://reviewpicker.kr/" target="_blank" class="btn btn-primary">❤️60초에 1건, 포스팅 알바 바로가기❤️</a>
+        <a href="https://reviewpicker.kr/notice-detail?idx=13" target="_blank" class="btn btn-primary">❤️ 리뷰피커 서포터즈 모집 지원 ❤️</a>
       </div>
+
       <div class="footer">※ 본 테스트는 오락 목적입니다.</div>
     </section>
   </div>
@@ -159,48 +161,16 @@ const quiz = [
     ]},
 ];
 
-/* 8개 전체 결과 — 긴 문구 반영, 이미지 파일은 001~008.png */
+/* 결과 이미지 파일 매핑 */
 const resultMap = {
-  "J-S-T": {
-    title: "절약형 전략가 (J·S·T)",
-    img: "001.png",
-    desc: "“한 푼이라도 아끼는 소비판 셜록홈즈!”\n소비판 셜록홈즈! 모든 소비에는 이유가 있고, 모든 결제에는 계획이 있다. 세일 시즌은 미리 달력에 체크, 포인트 적립은 숨 쉬듯이.\n\n🛒 소비 패턴:\n* 가격 비교 3곳 이상 필수\n* 장바구니 ‘숙성’ 후 결제\n* 쿠폰·마일리지 챙기기 달인\n\n조언:\n가끔은 계획에서 벗어나 ‘감정 소비’도 해보세요. 작은 사치가 의외로 큰 행복을 줍니다."
-  },
-  "P-S-T": {
-    title: "실용형 모험가 (P·S·T)",
-    img: "002.png",
-    desc: "“필요하면 바로 산다, 대신 끝까지 쓴다!”\n필요하다면? 바로 결제! ⚡ 하지만 허투루 쓰진 않는 실속파. 여행 하루 전에도 필요한 장비를 과감히 구매, 그리고 200% 활용.\n\n🛒 소비 패턴:\n* 생활용품·장비에 투자\n* ‘언젠가 쓸 것’ 아이템 장만\n* 빠른 결단과 실행력\n\n조언:\n결제 전 ‘한 달 뒤에도 쓸까?’ 질문 한 번이면 불필요한 지출이 쏙 줄어듭니다."
-  },
-  "J-S-F": {
-    title: "감성형 절약가 (J·S·F)",
-    img: "003.png",
-    desc: "“예쁘면 끌리지만, 쓸모 없으면 패스!”\n예쁜 건 사랑하지만, 불필요한 건 No! 🌸 감성과 실용 사이에서 완벽한 밸런스를 찾는 타입.\n\n🛒 소비 패턴:\n* 문구·향기·컬러에 약함\n* 계획 범위 내에서 즐김\n* ‘필요한 예쁨’만 허용\n\n조언:\n비슷한 물건이 늘어나면 ‘쿨링타임 48시간’을 가져보세요. 감성도 더 소중해집니다."
-  },
-  "P-S-F": {
-    title: "자유로운 실속파 (P·S·F)",
-    img: "004.png",
-    desc: "“사는 건 자유롭게, 안 쓰면 바로 정리!”\n마음이 가는 대로 소비, 하지만 절대 호갱은 아님! 🕊 즉흥적인 구매 후 필요 없으면 바로 중고 거래로 정리.\n\n🛒 소비 패턴:\n* SNS 핫템·신메뉴에 빠름\n* 실속과 재미를 동시에\n* 후회 없는 소비\n\n조언:\n결제 버튼 전 30분만 숨고르기. 그 사이에 지갑이 말릴 수도 있습니다."
-  },
-  "J-N-T": {
-    title: "미래지향 플래너 (J·N·T)",
-    img: "005.png",
-    desc: "“오늘의 소비는 내일의 투자!”\n소비 = 투자. 🎯 유행보다 ‘내 인생 업그레이드’에 집중.\n\n🛒 소비 패턴:\n* 경험·배움에 과감한 투자\n* 장기적 계획에 맞춘 소비\n* 최신 트렌드엔 무관심\n\n조언:\nROI 계산도 좋지만, 가끔은 순수한 즐거움에도 지갑을 열어보세요."
-  },
-  "P-N-T": {
-    title: "직감형 지출가 (P·N·T)",
-    img: "006.png",
-    desc: "“끌리면 사고, 가끔 후회도 한다!”\n느낌이 좋으면 바로 지갑 오픈! 🔥 트렌드를 앞서가지만, 가끔 ‘왜 샀지?’ 리스트도 생성.\n\n🛒 소비 패턴:\n* 신제품·신기술에 빠름\n* 한정판 사냥꾼\n* 빠른 결정, 빠른 후회(?)\n\n조언:\n월 1회 ‘뒤돌아보기’로 과열된 영역만 살짝 식혀주세요."
-  },
-  "J-N-F": {
-    title: "로맨틱 플래너 (J·N·F)",
-    img: "007.png",
-    desc: "“추억은 돈으로 사지만, 계획은 철저히!”\n추억은 돈으로 사는 것. 💖 다만 모든 이벤트는 철저히 계획된 상태에서!\n\n🛒 소비 패턴:\n* 여행·공연·기념일 준비 철저\n* 특별한 날 예산 따로 확보\n* ‘감동 설계자’ 스타일\n\n조언:\n기념일이 너무 많아지면 일정과 예산이 폭발할 수 있으니 다이어트가 필요합니다."
-  },
-  "P-N-F": {
-    title: "완전 YOLO형 (P·N·F)",
-    img: "008.png",
-    desc: "“통장 잔고보다 오늘의 행복이 먼저!”\n내일은 내일의 내가 알아서! 🌈 오늘이 즐겁다면 바로 결제.\n\n🛒 소비 패턴:\n* 여행·맛집·굿즈 즉시 예약\n* 한정판에 약함\n* 미래보다 현재를 우선\n\n조언:\nYOLO에도 안전망은 필요합니다. 비상금 자동이체를 생활화하세요."
-  }
+  "J-S-T": { img: "001.png" },
+  "P-S-T": { img: "002.png" },
+  "J-S-F": { img: "003.png" },
+  "P-S-F": { img: "004.png" },
+  "J-N-T": { img: "005.png" },
+  "P-N-T": { img: "006.png" },
+  "J-N-F": { img: "007.png" },
+  "P-N-F": { img: "008.png" },
 };
 
 let state = { idx: 0, score: {J:0, P:0, S:0, N:0, T:0, F:0} };
@@ -215,10 +185,9 @@ const el = {
   qText: document.getElementById('qText'),
   opts: document.getElementById('opts'),
   rImage: document.getElementById('rImage'),
-  rTitle: document.getElementById('rTitle'),
-  rDesc: document.getElementById('rDesc'),
   retry: document.getElementById('retry'),
   copyLink: document.getElementById('copyLink'),
+  downloadBtn: document.getElementById('downloadBtn'),
 };
 
 function showIntro() {
@@ -274,22 +243,33 @@ function pickType() {
 function showResult() {
   const key = pickType();
   const data = resultMap[key] || {};
+
   el.quiz.classList.add('hidden');
   el.result.classList.remove('hidden');
 
-  /* 이미지: 로드 성공시에만 보여줌 (없거나 깨지면 숨김) */
+  // 이미지 출력
   el.rImage.innerHTML = "";
   if (data.img) {
     const img = new Image();
-    img.onload = function(){ img.style.maxWidth="100%"; img.style.borderRadius="12px"; el.rImage.appendChild(img); };
-    img.onerror = function(){ el.rImage.innerHTML=""; };
-    img.src = data.img;
-    img.alt = data.title || "";
-  }
+    img.onload = function(){
+      img.style.width = "90%";
+      img.style.maxWidth = "480px";
+      img.style.borderRadius = "12px";
+      el.rImage.appendChild(img);
 
-  /* 텍스트 결과 출력 */
-  el.rTitle.textContent = data.title || "결과";
-  el.rDesc.textContent = data.desc || "결과 설명을 준비 중입니다.";
+      // 다운로드 버튼 href 세팅 (동일 파일로 다운로드)
+      el.downloadBtn.href = data.img;
+      const base = data.img.split('/').pop();
+      el.downloadBtn.download = base || "result.png";
+    };
+    img.onerror = function(){
+      el.rImage.innerHTML = "";
+      el.downloadBtn.href = "#";
+      el.downloadBtn.removeAttribute("download");
+    };
+    img.src = data.img;
+    img.alt = "결과 이미지";
+  }
 }
 
 el.start.addEventListener('click', startQuiz);

@@ -3,7 +3,13 @@
 <head>
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
-<title>나의 소비습관 알아보기 &lt;</title>
+<title>내 소비습관 알아보기</title>
+
+<!-- 캐시 무력화 -->
+<meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate" />
+<meta http-equiv="Pragma" content="no-cache" />
+<meta http-equiv="Expires" content="0" />
+
 <style>
   :root{
     --pink:#fc6c9d;
@@ -11,77 +17,83 @@
     --light-hover:#ffd6e6;
     --pink-dark:#e85b8a;
   }
-  body { font-family: system-ui, -apple-system, Arial, sans-serif; margin:0; background:#fafafa; color:#111; text-align:center; }
-  .wrap { max-width:640px; margin:0 auto; padding:24px; }
-  .card { background:#fff; border-radius:16px; padding:24px; box-shadow:0 2px 12px rgba(0,0,0,.06); }
+  /* iOS 텍스트 자동확대 방지 + 기본 폰트/크기 고정 */
+  html{ -webkit-text-size-adjust:100%; }
+  body{
+    font-family: system-ui, -apple-system, Arial, sans-serif;
+    margin:0; background:#fafafa; color:#111; text-align:center;
+    font-size:16px; line-height:1.4;
+  }
 
-  .progress { height:8px; background:#eee; border-radius:999px; overflow:hidden; margin:12px auto 20px; max-width:80%; }
-  .bar { height:100%; width:0; background:var(--pink); transition:width .25s; }
+  /* 좌우 여백 축소 */
+  .wrap{ max-width:640px; margin:0 auto; padding:12px; }
+  .card{ background:#fff; border-radius:16px; padding:16px; box-shadow:0 2px 12px rgba(0,0,0,.06); }
 
-  h1 { font-size:24px; margin:0 0 6px; }
-  h2 { font-size:20px; margin:0 0 16px; }
-  .muted { color:#666; font-size:14px; }
+  /* 데스크톱에선 약간 넉넉하게 */
+  @media (min-width:768px){
+    .wrap{ padding:16px; }
+    .card{ padding:20px; }
+  }
 
-  /* 공통 버튼 — 결과 이미지와 동일 폭 */
+  .progress{ height:8px; background:#eee; border-radius:999px; overflow:hidden; margin:12px auto 18px; max-width:88%; }
+  .bar{ height:100%; width:0; background:var(--pink); transition:width .25s; }
+
+  h1{ font-size:22px; margin:0 0 6px; }
+  h2{ font-size:18px; margin:0 0 14px; }
+  .muted{ color:#666; font-size:14px; }
+
+  /* 버튼: 폰트/높이/폭 통일 */
   .btn{
     border:1px solid var(--pink);
     border-radius:999px;
-    padding:14px 16px;
+    padding:14px 16px;            /* 동일 패딩 */
     background:var(--light);
     color:#111;
     cursor:pointer;
     text-align:center;
-    width:90%;
+    width:100%;                   /* 카드 내부 꽉 차게 */
     max-width:480px;
     display:inline-block;
     text-decoration:none;
     box-sizing:border-box;
     transition:background .15s, border-color .15s, transform .02s;
+    font-size:16px;               /* 고정 */
+    line-height:1.1;
   }
   .btn:hover{ background:var(--light-hover); border-color:var(--pink-dark); }
   .btn:active{ transform:translateY(1px); }
 
-  /* 주요 프로모션 버튼 */
   .btn-primary{
     background:var(--pink);
     border-color:var(--pink);
     color:#fff;
-    white-space:nowrap;
-    font-size:clamp(12px, 3.2vw, 16px);
-    padding:12px 18px;
-    overflow:hidden;
-    width:90%;
-    max-width:480px;
+    /* 폰트/패딩도 기본 버튼과 동일 → 크기 통일 */
   }
   .btn-primary:hover{ background:var(--pink-dark); border-color:var(--pink-dark); }
-  @media (max-width:360px){
-    .btn-primary{ font-size:12px; }
-  }
 
-  .btns { display:flex; flex-direction:column; gap:12px; margin-top:16px; align-items:center; }
+  .btns{ display:flex; flex-direction:column; gap:12px; margin-top:14px; align-items:center; }
 
-  /* 다시하기/링크복사 2개를 한 줄에, 전체 폭은 이미지와 동일 */
+  /* 다시하기/링크공유 2개를 한 줄에 */
   .share-row{
-    display:flex; gap:12px; justify-content:center; margin-top:12px;
-    width:90%; max-width:480px; margin-left:auto; margin-right:auto;
+    display:flex; gap:10px; justify-content:center; margin-top:12px;
+    width:100%; max-width:480px; margin-left:auto; margin-right:auto;
   }
   .share-row .btn{ flex:1; max-width:none; }
 
-  .hidden { display:none; }
+  .hidden{ display:none; }
 
-  /* 결과 이미지도 버튼과 동일 폭 */
-  .result-img img { width:90%; max-width:480px; border-radius:12px; display:block; margin:0 auto; }
+  /* 결과 이미지: 버튼과 동일 폭(가로 여백 더 줄임) */
+  .result-img img{ width:100%; max-width:480px; border-radius:12px; display:block; margin:0 auto; }
 
-  .footer { text-align:center; color:#888; font-size:12px; margin-top:18px; }
+  .footer{ text-align:center; color:#888; font-size:12px; margin-top:16px; }
 </style>
 </head>
 <body>
   <div class="wrap">
     <!-- Intro -->
     <section id="intro" class="card">
-      <!-- 메인 썸네일 -->
-      <img src="제목을-입력해주세요_-001.png" alt="메인 이미지" style="max-width:100%; border-radius:12px; margin-bottom:16px;">
-      <h1>나의 소비습관 알아보기 &lt;</h1>
+      <img src="제목을-입력해주세요_-001.png?v=10" alt="메인 이미지" style="max-width:100%; border-radius:12px; margin-bottom:14px;">
+      <h1>내 소비습관 알아보기</h1>
       <p class="muted">8개의 질문으로 알아보는 나의 돈 쓰는 성격 (약 40초)</p>
       <div class="btns">
         <button id="startBtn" class="btn">시작하기</button>
@@ -98,26 +110,21 @@
 
     <!-- Result -->
     <section id="result" class="card hidden">
-      <!-- 작은 배지 대신 버튼과 동일 크기의 라벨 -->
-      <div class="btn" aria-hidden="true" style="cursor:default;">결과 확인</div>
+      <!-- 결과 확인 라벨: 버튼과 동일 크기 + 이미지와 간격 -->
+      <div class="btn" aria-hidden="true" style="cursor:default; margin-bottom:12px;">결과 확인</div>
 
       <div class="result-img" id="rImage"></div>
 
-      <!-- 이미지 다운로드 버튼 -->
-      <div class="btns" style="margin-top:12px;">
-        <a id="downloadBtn" class="btn" href="#" download>이미지 다운로드</a>
-      </div>
-
-      <!-- 다시하기 / 링크 복사 -->
+      <!-- 다시하기 / 링크 공유 -->
       <div class="share-row">
         <button class="btn" id="retry">다시 하기</button>
-        <button class="btn" id="copyLink">링크 복사</button>
+        <button class="btn" id="shareLink">링크 공유</button>
       </div>
 
-      <!-- 프로모션 버튼들 -->
+      <!-- 프로모션 버튼들 (텍스트 교체) -->
       <div class="btns" style="margin-top:10px;">
-        <a href="https://reviewpicker.kr/" target="_blank" class="btn btn-primary">❤️60초에 1건, 포스팅 알바 바로가기❤️</a>
-        <a href="https://reviewpicker.kr/notice-detail?idx=13" target="_blank" class="btn btn-primary">❤️ 리뷰피커 서포터즈 모집 지원 ❤️</a>
+        <a href="https://reviewpicker.kr/" target="_blank" class="btn btn-primary">▶ 60초에 1건, 포스팅 알바 바로가기 ◀</a>
+        <a href="https://reviewpicker.kr/notice-detail?idx=13" target="_blank" class="btn btn-primary">▶ 리뷰피커 서포터즈 모집 지원 ◀</a>
       </div>
 
       <div class="footer">※ 본 테스트는 오락 목적입니다.</div>
@@ -162,19 +169,19 @@ const quiz = [
 ];
 
 /* 결과 이미지 파일 매핑 */
+const v = '10';
 const resultMap = {
-  "J-S-T": { img: "001.png" },
-  "P-S-T": { img: "002.png" },
-  "J-S-F": { img: "003.png" },
-  "P-S-F": { img: "004.png" },
-  "J-N-T": { img: "005.png" },
-  "P-N-T": { img: "006.png" },
-  "J-N-F": { img: "007.png" },
-  "P-N-F": { img: "008.png" },
+  "J-S-T": { img: "001.png?v="+v },
+  "P-S-T": { img: "002.png?v="+v },
+  "J-S-F": { img: "003.png?v="+v },
+  "P-S-F": { img: "004.png?v="+v },
+  "J-N-T": { img: "005.png?v="+v },
+  "P-N-T": { img: "006.png?v="+v },
+  "J-N-F": { img: "007.png?v="+v },
+  "P-N-F": { img: "008.png?v="+v },
 };
 
 let state = { idx: 0, score: {J:0, P:0, S:0, N:0, T:0, F:0} };
-
 const el = {
   intro: document.getElementById('intro'),
   quiz: document.getElementById('quiz'),
@@ -186,86 +193,66 @@ const el = {
   opts: document.getElementById('opts'),
   rImage: document.getElementById('rImage'),
   retry: document.getElementById('retry'),
-  copyLink: document.getElementById('copyLink'),
-  downloadBtn: document.getElementById('downloadBtn'),
+  shareLink: document.getElementById('shareLink'),
 };
 
-function showIntro() {
+function showIntro(){
   el.intro.classList.remove('hidden');
   el.quiz.classList.add('hidden');
   el.result.classList.add('hidden');
 }
-
-function startQuiz() {
+function startQuiz(){
   state = { idx:0, score:{J:0,P:0,S:0,N:0,T:0,F:0} };
   el.intro.classList.add('hidden');
   el.result.classList.add('hidden');
   el.quiz.classList.remove('hidden');
   renderQ();
 }
-
-function renderQ() {
+function renderQ(){
   const total = quiz.length;
   const q = quiz[state.idx];
   el.qCounter.textContent = (state.idx+1) + " / " + total;
   el.bar.style.width = ((state.idx)/total)*100 + "%";
   el.qText.textContent = q.text;
   el.opts.innerHTML = "";
-  q.options.forEach(function(opt){
+  q.options.forEach(opt=>{
     const b = document.createElement('button');
     b.className = 'btn';
     b.textContent = opt.label;
-    b.onclick = function(){
-      for (const k in opt.delta) { state.score[k] += opt.delta[k]; }
+    b.onclick = ()=>{
+      for (const k in opt.delta) state.score[k] += opt.delta[k];
       nextQ();
     };
     el.opts.appendChild(b);
   });
 }
-
-function nextQ() {
+function nextQ(){
   state.idx++;
-  if (state.idx < quiz.length) {
-    renderQ();
-  } else {
+  if (state.idx < quiz.length) renderQ();
+  else{
     el.bar.style.width = '100%';
     showResult();
   }
 }
-
-function pickType() {
+function pickType(){
   const JorP = state.score.J >= state.score.P ? 'J' : 'P';
   const SorN = state.score.S >= state.score.N ? 'S' : 'N';
   const TorF = state.score.T >= state.score.F ? 'T' : 'F';
-  return JorP + "-" + SorN + "-" + TorF;
+  return `${JorP}-${SorN}-${TorF}`;
 }
-
-function showResult() {
+function showResult(){
   const key = pickType();
   const data = resultMap[key] || {};
-
   el.quiz.classList.add('hidden');
   el.result.classList.remove('hidden');
-
-  // 이미지 출력
   el.rImage.innerHTML = "";
-  if (data.img) {
+  if (data.img){
     const img = new Image();
-    img.onload = function(){
-      img.style.width = "90%";
+    img.onload = ()=> {
+      img.style.width = "100%";
       img.style.maxWidth = "480px";
       img.style.borderRadius = "12px";
       el.rImage.appendChild(img);
-
-      // 다운로드 버튼 href 세팅 (동일 파일로 다운로드)
-      el.downloadBtn.href = data.img;
-      const base = data.img.split('/').pop();
-      el.downloadBtn.download = base || "result.png";
-    };
-    img.onerror = function(){
-      el.rImage.innerHTML = "";
-      el.downloadBtn.href = "#";
-      el.downloadBtn.removeAttribute("download");
     };
     img.src = data.img;
     img.alt = "결과 이미지";
@@ -274,12 +261,22 @@ function showResult() {
 
 el.start.addEventListener('click', startQuiz);
 el.retry.addEventListener('click', showIntro);
-el.copyLink.addEventListener('click', async function () {
-  try {
-    await navigator.clipboard.writeText(location.href);
-    el.copyLink.textContent = '복사됨!';
-    setTimeout(function(){ el.copyLink.textContent = '링크 복사'; }, 1200);
-  } catch(e) {}
+
+/* 링크 공유(지원 시 앱 공유, 미지원 시 복사) */
+el.shareLink.addEventListener('click', async ()=>{
+  const url = location.href;
+  const data = { title: '내 소비습관 알아보기', text: '나의 소비 유형 결과를 확인해보세요!', url };
+  if (navigator.share){
+    try{ await navigator.share(data); } catch(e){}
+  } else if (navigator.clipboard){
+    try{
+      await navigator.clipboard.writeText(url);
+      el.shareLink.textContent = '링크 복사됨';
+      setTimeout(()=> el.shareLink.textContent='링크 공유', 1200);
+    } catch(e){}
+  } else {
+    prompt('이 링크를 복사하세요:', url);
+  }
 });
 
 showIntro();
